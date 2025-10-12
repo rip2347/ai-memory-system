@@ -33,3 +33,4 @@ models/
 *.gguf
 *.bin
 .venv/
+memories/
