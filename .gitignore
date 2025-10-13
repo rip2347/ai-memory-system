@@ -13,7 +13,7 @@ memories/
 *.json
 
 # Config (may contain API keys later)
-config.py
+# config.py
 
 # IDE
 .vscode/
