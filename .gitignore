@@ -34,3 +34,4 @@ models/
 *.bin
 .venv/
 memories/
+voices/
