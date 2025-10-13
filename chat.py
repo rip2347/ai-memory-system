@@ -348,8 +348,10 @@ Assistant:"""
         else:
             title = f"Chat {self.session_start.strftime('%Y-%m-%d %H:%M')}"
         
-        # Process and save (verbose=False for clean exit)
-        print("\nProcessing conversation into memory...")
+        # Process and save with timing
+        print("\n💾 Processing conversation into memory...")
+        start_time = time.time()
+        
         try:
             memory = self.processor.process_conversation(
                 conversation_text,
@@ -359,9 +361,19 @@ Assistant:"""
                 response_times=self.response_times
             )
             
-            print(f"✓ Conversation saved: {memory['id']}")
-            print(f"  Topics: {', '.join(memory['topics'][:3])}")
-            print(f"  Insights: {len(memory['insights'])}")
+            processing_time = time.time() - start_time
+            
+            # Calculate total conversation stats
+            total_words = sum(len(msg['content'].split()) for msg in self.messages)
+            conversation_duration = (datetime.now() - self.session_start).total_seconds()
+            overall_wps = total_words / conversation_duration if conversation_duration > 0 else 0
+
+            print(f"\n✓ Conversation saved: {memory['id']}")
+            print(f"   Topics: {', '.join(memory['topics'][:3])}")
+            print(f"   Insights: {len(memory['insights'])}")
+            print(f"   Messages: {len(self.messages)}")
+            print(f"   Total: {total_words} words in {conversation_duration:.1f}s ({overall_wps:.1f} w/s)")
+            print(f"   Processing time: {processing_time:.2f}s")
             print("\nGoodbye! 👋")
             
         except Exception as e:
