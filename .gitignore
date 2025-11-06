@@ -35,3 +35,4 @@ models/
 .venv/
 memories/
 voices/
+_archive/
